@@ -1,0 +1,18 @@
+{
+  "name": "mission10assignment",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bowling League app with React frontend and .NET backend",
+  "scripts": {
+    "dev": "concurrently --kill-others \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "dotnet watch run --project backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "dotnet build backend",
+    "build": "npm run build:frontend && npm run build:backend",
+    "install:frontend": "npm install --prefix frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
