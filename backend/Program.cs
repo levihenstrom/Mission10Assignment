@@ -19,7 +19,17 @@ builder.Services.AddCors(options =>
                   "http://localhost:5173",
                   "http://localhost:5174",
                   "http://localhost:5175",
-                  "http://localhost:5176"
+                  "http://localhost:5176",
+                  "http://localhost:5177",
+                  "http://localhost:5178",
+                  "http://localhost:5179",
+                  "https://localhost:5173",
+                  "https://localhost:5174",
+                  "https://localhost:5175",
+                  "https://localhost:5176",
+                  "https://localhost:5177",
+                  "https://localhost:5178",
+                  "https://localhost:5179"
               )
               .AllowAnyHeader()
               .AllowAnyMethod();
@@ -36,8 +46,12 @@ var app = builder.Build();
 // Apply the CORS policy to all requests
 app.UseCors("AllowReactApp");
 
-// Redirect HTTP to HTTPS in production
-app.UseHttpsRedirection();
+// Avoid HTTP->HTTPS redirects in local development. Redirects can break
+// frontend fetch calls when the browser blocks cross-origin HTTPS redirects.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // -----------------------------------------------------------------------
 // API Endpoints

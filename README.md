@@ -42,7 +42,7 @@ npm run dev
 
 This starts both servers:
 
-- Frontend: `http://localhost:5173` (or next available Vite port)
+- Frontend: `http://localhost:5173`
 - Backend API: `http://localhost:5181`
 
 ## API Endpoint
@@ -79,8 +79,8 @@ npm run build:backend
 ## Troubleshooting
 
 - If frontend shows fetch/network errors, confirm backend is running on `http://localhost:5181`.
-- Frontend includes a backend-port fallback and will also try `5177`, `5178`, and `5179`.
+- Frontend includes a backend-port fallback and will also try `http://localhost:5177`, `http://localhost:5178`, and `http://localhost:5179`.
 - You can force a specific backend URL by setting `VITE_API_BASE_URL` in a `.env` file under `frontend/`.
 - If backend fails to read data, confirm `BowlingLeague.sqlite` exists at repo root.
-- If port `5173` is occupied, Vite may move to `5174`, `5175`, etc. (CORS already allows these ports).
+- If `5173` is occupied, Vite may choose the next available port.
 
