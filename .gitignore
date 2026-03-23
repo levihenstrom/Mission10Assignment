@@ -5,9 +5,12 @@ node_modules/
 dist/
 build/
 
+# claude files
 .claude/
 
+# claude markdown file
 Claude.md
+
 
 # Environment files
 .env

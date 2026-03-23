@@ -16,6 +16,18 @@ interface Bowler {
   teamName: string;
 }
 
+// Ordered list of backend URLs to try when loading bowler data.
+// You can override this completely with VITE_API_BASE_URL.
+const backendCandidates: string[] = [
+  ...(import.meta.env.VITE_API_BASE_URL
+    ? [String(import.meta.env.VITE_API_BASE_URL)]
+    : []),
+  'http://localhost:5181',
+  'http://localhost:5177',
+  'http://localhost:5178',
+  'http://localhost:5179'
+];
+
 function BowlersTable() {
   // State to hold the fetched list of bowlers
   const [bowlers, setBowlers] = useState<Bowler[]>([]);
@@ -26,16 +38,33 @@ function BowlersTable() {
   // State to hold any error message
   const [error, setError] = useState<string | null>(null);
 
+  // Attempts each backend port in sequence until one responds successfully.
+  const fetchBowlersWithFallback = async (): Promise<Bowler[]> => {
+    let lastErrorMessage = 'Unable to reach backend API.';
+
+    for (const baseUrl of backendCandidates) {
+      const response = await fetch(`${baseUrl}/api/bowlers`).catch(() => null);
+
+      // If fetch failed completely (network/CORS/etc.), try the next port.
+      if (!response) {
+        lastErrorMessage = `Could not connect to ${baseUrl}`;
+        continue;
+      }
+
+      // If endpoint exists and responds successfully, use this data.
+      if (response.ok) {
+        return (await response.json()) as Bowler[];
+      }
+
+      lastErrorMessage = `${baseUrl} responded with ${response.status}`;
+    }
+
+    throw new Error(lastErrorMessage);
+  };
+
   // Fetch bowler data from the backend when the component mounts
   useEffect(() => {
-    fetch('http://localhost:5177/api/bowlers')
-      .then((response) => {
-        // Throw an error if the response is not OK (e.g. 404, 500)
-        if (!response.ok) {
-          throw new Error(`Server error: ${response.status}`);
-        }
-        return response.json();
-      })
+    fetchBowlersWithFallback()
       .then((data: Bowler[]) => {
         // Store the bowler data in state
         setBowlers(data);
