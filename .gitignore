@@ -5,6 +5,10 @@ node_modules/
 dist/
 build/
 
+.claude/
+
+Claude.md
+
 # Environment files
 .env
 .env.local
