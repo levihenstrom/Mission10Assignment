@@ -45,26 +45,9 @@ This starts both servers:
 - Frontend: `http://localhost:5173` (or next available Vite port)
 - Backend API: `http://localhost:5181`
 
-## Run Frontend and Backend Separately (Optional)
-
-### Backend
-
-```bash
-dotnet run --project backend
-```
-
-API endpoint:
+## API Endpoint
 
 - `GET http://localhost:5181/api/bowlers`
-
-### Frontend
-
-```bash
-npm install --prefix frontend
-npm run dev --prefix frontend
-```
-
-Open the URL shown by Vite (usually `http://localhost:5173`).
 
 ## Connection String
 
